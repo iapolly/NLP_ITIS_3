@@ -70,11 +70,10 @@ def get_count_of_unique_words(words_array):
 
 # мешок слов
 def get_words_bag(feeds, all_unique):
-    unique_count = len(all_unique)
     bag = []
     for feed in feeds:
         feed_all_words = get_normal_form_words([feed])
-        feed_bag = [0] * unique_count
+        feed_bag = []
         for word in all_unique:
             count = feed_all_words.count(word)
             feed_bag.append(count)

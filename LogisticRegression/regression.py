@@ -68,7 +68,7 @@ def get_count_of_unique_words(words_array):
     return len(np.unique(words_array))
 
 
-# массив всех слов в нормальной форме
+# мешок слов
 def get_words_bag(feeds, all_unique):
     unique_count = len(all_unique)
     bag = []

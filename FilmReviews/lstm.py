@@ -10,6 +10,8 @@ from keras_preprocessing.sequence import pad_sequences
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import classification_report
 
+from sklearn.preprocessing import LabelEncoder
+
 all_feeds_file = "all_train.csv"
 my_feeds_file = "my.csv"
 
@@ -47,6 +49,11 @@ y_true = []
 for label in my_labels:
     y_true.append(int(label[0]))
 
+encoder = LabelEncoder()
+encoder.fit(Y_train)
+Y_train = encoder.transform(Y_train)
+y_true = encoder.transform(y_true)
+
 
 def create_embedding_matrix(model, word_index, embedding_dim):
     vocab_size = len(word_index) + 1
@@ -68,7 +75,7 @@ def read_from_pickle(name):
 words_count = 189193
 vector_size = 300
 categories_count = 3
-sequence_size = 1000
+sequence_size = 500
 
 filename = 'file.pkl'
 model = read_from_pickle(filename)
@@ -100,13 +107,12 @@ model.add(Dense(3, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 batch_size = 32
-epochs = 10
+epochs = 3
 
 model.fit(X_train, Y_train, epochs=epochs, batch_size=batch_size, validation_data=(x_test, y_test))
 
 score = model.evaluate(x_test, y_test, batch_size=batch_size, verbose=1)
 
-print()
 print(u'Оценка теста: {}'.format(score[0]))
 print(u'Оценка точности модели: {}'.format(score[1]))
 
